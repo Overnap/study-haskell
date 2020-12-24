@@ -253,3 +253,20 @@ interactiveConcatenating = do
     putStrLn "Choose two strings:"
     s <- (++) <$> getLine <*> (take 3 <$> getLine)
     putStrLn "Let's concatenate them:" *> putStrLn s
+
+-- Board 정의
+type Board = Int
+
+-- 다음 턴의 Board 선택지 얻는 함수
+-- +1과 *2 두 가지 선택지, 10이 넘어가면 무효
+nextConfigs :: Board -> [Board]
+nextConfigs x
+    | x < 6 = [x+1, x*2]
+    | x < 10 = [x+1]
+    | otherwise = []
+
+-- 모든 가능한 경우의 수를 재귀적으로 구하자
+getAllConfigs :: Board -> [Board]
+getAllConfigs x = f [x] where
+    f [] = []
+    f xs = xs >>= (\y -> y : (f $ nextConfigs y))
