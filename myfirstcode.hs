@@ -270,3 +270,27 @@ getAllConfigs :: Board -> [Board]
 getAllConfigs x = f [x] where
     f [] = []
     f xs = xs >>= (\y -> y : (f $ nextConfigs y))
+
+nameDo :: IO ()
+nameDo = do
+    putStrLn "What is your first name?"
+    first <- getLine
+    putStrLn "And your last name?"
+    last <- getLine
+    let full = first ++ " " ++ last
+    putStrLn ("Pleased to meet you, " ++ full ++ "!")
+
+nameReturn :: IO String
+nameReturn = do
+    putStrLn "What is your first name?"
+    first <- getLine
+    putStrLn "And your last name?"
+    last <- getLine
+    let full = first ++ " " ++ last
+    putStrLn ("Pleased to meet you, " ++ full ++ "!")
+    return full
+
+greetAndSeeYou :: IO()
+greetAndSeeYou = do
+    name <- nameReturn
+    putStrLn ("See you, " ++ name ++ "!")
