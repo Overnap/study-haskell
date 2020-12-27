@@ -271,6 +271,9 @@ getAllConfigs x = f [x] where
     f [] = []
     f xs = xs >>= (\y -> y : (f $ nextConfigs y))
 
+myapp :: [] (a -> b) -> [] a -> [] b
+myapp fs xs = [ f $ x | f <- fs, x <- xs ]
+
 nameDo :: IO ()
 nameDo = do
     putStrLn "What is your first name?"
@@ -290,7 +293,20 @@ nameReturn = do
     putStrLn ("Pleased to meet you, " ++ full ++ "!")
     return full
 
-greetAndSeeYou :: IO()
+greetAndSeeYou :: IO ()
 greetAndSeeYou = do
     name <- nameReturn
     putStrLn ("See you, " ++ name ++ "!")
+
+printList :: Show a => [a] -> IO ()
+printList (x:xs) = do
+    putStr "["
+    putStr $ show x
+    mapM_ (\y -> putStr ", " >> putStr (show y)) xs
+    putStrLn "]"
+
+-- rabbit :: Integral a => a -> [[Char]]
+-- rabbit x = replicate (power 3 x) "rabbit"
+
+rabbit :: Int -> [[Char]]
+rabbit x = foldr ($) ["rabbit"] $ replicate x (>>= replicate 3)
